@@ -1,0 +1,38 @@
+[{
+    "deviceName": "",
+    "deviceId": "",
+    "batteryLife": ""
+},
+
+{
+    "deviceName": "",
+    "deviceId": "",
+    "location": ""
+},
+
+{
+    "deviceName": "",
+    "deviceId": "",
+    "lidStatus": ""
+},
+
+{
+    "deviceName": "",
+    "deviceId": "",
+    "greenLedStatus": ""
+},
+
+{
+    "deviceId": "",
+    "command": "open_lid"
+},
+
+{
+    "deviceId": "",
+    "command": "green_led_on"
+},
+
+{
+    "deviceId": "",
+    "command": "green_led_off"
+}]
