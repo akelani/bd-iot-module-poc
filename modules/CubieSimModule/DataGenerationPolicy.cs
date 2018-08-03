@@ -8,7 +8,7 @@ namespace AzureIotEdgeSimulatedCubie
     public class DataGenerationPolicy
     {
         private static readonly Random rnd = new Random();
-        private double _normal;
+        //private double _normal;
         private double currentBatteryLife = 100;
 
         public DataGenerationPolicy()

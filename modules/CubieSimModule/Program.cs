@@ -24,7 +24,7 @@ namespace AzureIotEdgeSimulatedCubie
         private static volatile DesiredPropertiesData desiredPropertiesData;
         private static DataGenerationPolicy generationPolicy = new DataGenerationPolicy();
 
-        private static volatile bool IsReset = false;
+        //private static volatile bool IsReset = false;
 
         private static readonly Random rnd = new Random();
 
@@ -125,7 +125,7 @@ namespace AzureIotEdgeSimulatedCubie
                         if(counter == 1)
                         {
                             // first time execution needs to reset the data factory
-                            IsReset = true;
+                            //IsReset = true;
                         }
 
                         //var notUsed = TemperatureDataFactory.CreateTemperatureData(counter, generationPolicy, IsReset);
@@ -149,7 +149,7 @@ namespace AzureIotEdgeSimulatedCubie
                                 break;
                         }
                         
-                        IsReset = false;
+                        //IsReset = false;
                         var messageString = JsonConvert.SerializeObject(msg);
                         var messageBytes = Encoding.UTF8.GetBytes(messageString);
                         var message = new Message(messageBytes);
@@ -183,7 +183,7 @@ namespace AzureIotEdgeSimulatedCubie
             var response = new MethodResponse((int) HttpStatusCode.OK);
             Console.WriteLine("Received reset command via direct method invocation");
             Console.WriteLine("Resetting temperature sensor...");
-            IsReset = true;
+            //IsReset = true;
             return Task.FromResult(response);
         }
 
@@ -202,7 +202,7 @@ namespace AzureIotEdgeSimulatedCubie
                     if (messageBody.Command == ControlCommandEnum.Reset)
                     {
                         Console.WriteLine("Resetting temperature sensor..");
-                        IsReset = true;
+                        //IsReset = true;
                     }
                     else
                     {
