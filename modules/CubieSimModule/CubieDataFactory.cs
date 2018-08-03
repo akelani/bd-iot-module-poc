@@ -8,14 +8,17 @@ namespace AzureIotEdgeSimulatedCubie
     public class CubieDataFactory
     {
         private static readonly Random rand = new Random();
-        //private static double CurrentMachineTemperature;
+        private static double CurrentBatteryLife;
 
-        public static BatteryLifeMessageBody CreateBatteryData(String deviceName, String deviceId, int batteryLife) {
+        public static BatteryLifeMessageBody CreateBatteryData(String deviceName, String deviceId, DataGenerationPolicy policy = null) {
+            
+           CubieDataFactory.CurrentBatteryLife = policy.CalculateBatteryLife();
+
             var batteryLifeMessage = new BatteryLifeMessageBody
             {
                 DeviceName = deviceName,
                 DeviceId = deviceId,
-                BatteryLife = batteryLife,
+                BatteryLife = CurrentBatteryLife,
                 TimeCreated = string.Format("{0:O}", DateTime.Now)
             };
 

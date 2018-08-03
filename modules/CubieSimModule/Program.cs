@@ -22,7 +22,7 @@ namespace AzureIotEdgeSimulatedCubie
         private static object msg;
 
         //private static volatile DesiredPropertiesData desiredPropertiesData;
-        //private static DataGenerationPolicy generationPolicy = new DataGenerationPolicy();
+        private static DataGenerationPolicy generationPolicy = new DataGenerationPolicy();
 
         private static volatile bool IsReset = false;
 
@@ -124,12 +124,12 @@ namespace AzureIotEdgeSimulatedCubie
                         }
 
                         //var notUsed = TemperatureDataFactory.CreateTemperatureData(counter, generationPolicy, IsReset);
-                        var randMsg = rnd.Next(0,3);
+                        var randMsg = rnd.Next(0,4);
                         
                         switch (randMsg)
                         {
                             case 0:
-                                msg = CubieDataFactory.CreateBatteryData("Cubie1", "1", 56);
+                                msg = CubieDataFactory.CreateBatteryData("Cubie1", "1", generationPolicy);
                                 break;
                             case 1:
                                 msg = CubieDataFactory.CreateLidStatusData("Cubie1", "1", false);

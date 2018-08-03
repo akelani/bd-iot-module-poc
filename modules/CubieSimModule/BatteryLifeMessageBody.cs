@@ -8,6 +8,6 @@ namespace AzureIotEdgeSimulatedCubie
     public class BatteryLifeMessageBody : BaseMessageBody
     {
         [JsonProperty("batteryLife")]
-        public int BatteryLife { get; set; }
+        public double BatteryLife { get; set; }
     }
 }
