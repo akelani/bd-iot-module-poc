@@ -12,7 +12,7 @@
               "bdiotcontainerregistry": {
                 "username": "$CONTAINER_REGISTRY_USERNAME_bdiotcontainerregistry",
                 "password": "$CONTAINER_REGISTRY_PASSWORD_bdiotcontainerregistry",
-                "address": "bdiotcontainerregistry.azurecr.io"
+                "address": "hfreg.azurecr.io"
               }
             }
           }
