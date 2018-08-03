@@ -9,6 +9,7 @@ namespace AzureIotEdgeSimulatedCubie
     {
         private static readonly Random rnd = new Random();
         private double _normal;
+        private double currentBatteryLife = 100;
 
         public DataGenerationPolicy()
         {
@@ -30,13 +31,13 @@ namespace AzureIotEdgeSimulatedCubie
         // public int HumidityPercentMin { get; private set; }
         // public int HumidityPercentMax { get; set; }
 
-        public double CalculateBatteryLife(double? currentBatteryLife = null)
+        public double CalculateBatteryLife(double? initBatteryLife = null)
         {
-            var current = currentBatteryLife ?? BatteryLifeMin;
-            if(current > BatteryLifeMin) {
-                current -= 0.5;
+            //var current = currentBatteryLife ?? BatteryLifeMin;
+            if(currentBatteryLife > BatteryLifeMin) {
+                currentBatteryLife -= 0.5;
             } else {
-                current = 100.0;
+                currentBatteryLife = 100.0;
             }
             // if(current > BatteryLifeMax)
             // {
@@ -46,7 +47,7 @@ namespace AzureIotEdgeSimulatedCubie
             // {
             //     current += -0.25 + (rnd.NextDouble() * 1.5); // add value between [-0.25..1.25] - avg +0.5
             // }
-            return Math.Round(current, 1);
+            return Math.Round(currentBatteryLife, 2);
         }
 
         // public double CalculatePressure(double currentTemperature)

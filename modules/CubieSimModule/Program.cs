@@ -64,16 +64,17 @@ namespace AzureIotEdgeSimulatedCubie
             Console.WriteLine("IoT Hub module client initialized.");
 
             // callback for updating desired properties through the portal or rest api
-            //await ioTHubModuleClient.SetDesiredPropertyUpdateCallbackAsync(OnDesiredPropertiesUpdate, null);
+            await ioTHubModuleClient.SetDesiredPropertyUpdateCallbackAsync(OnDesiredPropertiesUpdate, null);
 
             // this direct method will allow to reset the temperature sensor values back to their initial state
             //await ioTHubModuleClient.SetMethodHandlerAsync("reset", ResetMethod, null);
 
             // Register callback to be called when a message is received by the module
             //await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", PipeMessage, ioTHubModuleClient);
-
-            // as this runs in a loop we don't await
-            SendSimulationData(ioTHubModuleClient);
+            
+             // as this runs in a loop we don't await
+            await SendSimulationData(ioTHubModuleClient);
+            Console.WriteLine("Simulating data...");
         }
 
         /// <summary>
@@ -166,11 +167,12 @@ namespace AzureIotEdgeSimulatedCubie
 
         }
 
-        // private static Task OnDesiredPropertiesUpdate(TwinCollection twinCollection, object userContext)
-        // {
-        //     desiredPropertiesData = new DesiredPropertiesData(twinCollection);
-        //     return Task.CompletedTask;
-        // }
+        private static Task OnDesiredPropertiesUpdate(TwinCollection twinCollection, object userContext)
+        {
+            var desiredPropertiesData = new DesiredPropertiesData(twinCollection);
+            Console.WriteLine(desiredPropertiesData);
+            return Task.CompletedTask;
+        }
 
 
         private static Task<MethodResponse> ResetMethod(MethodRequest request, object userContext)

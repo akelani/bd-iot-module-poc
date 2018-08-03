@@ -10,7 +10,7 @@ namespace AzureIotEdgeSimulatedCubie
         private static readonly Random rand = new Random();
         private static double CurrentBatteryLife;
 
-        public static BatteryLifeMessageBody CreateBatteryData(String deviceName, String deviceId, DataGenerationPolicy policy = null) {
+        public static BatteryLifeMessageBody CreateBatteryData(String deviceName, String deviceId, DataGenerationPolicy policy) {
             
            CubieDataFactory.CurrentBatteryLife = policy.CalculateBatteryLife();
 
