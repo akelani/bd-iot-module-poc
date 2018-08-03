@@ -21,7 +21,7 @@ namespace AzureIotEdgeSimulatedCubie
 
         private static object msg;
 
-        //private static volatile DesiredPropertiesData desiredPropertiesData;
+        private static volatile DesiredPropertiesData desiredPropertiesData;
         private static DataGenerationPolicy generationPolicy = new DataGenerationPolicy();
 
         private static volatile bool IsReset = false;
@@ -62,6 +62,10 @@ namespace AzureIotEdgeSimulatedCubie
             ModuleClient ioTHubModuleClient = await ModuleClient.CreateFromEnvironmentAsync(settings);
             await ioTHubModuleClient.OpenAsync();
             Console.WriteLine("IoT Hub module client initialized.");
+
+            var moduleTwin = await ioTHubModuleClient.GetTwinAsync();
+            var moduleTwinCollection = moduleTwin.Properties.Desired;
+            desiredPropertiesData = new DesiredPropertiesData(moduleTwinCollection);
 
             // callback for updating desired properties through the portal or rest api
             await ioTHubModuleClient.SetDesiredPropertyUpdateCallbackAsync(OnDesiredPropertiesUpdate, null);
@@ -115,8 +119,8 @@ namespace AzureIotEdgeSimulatedCubie
             {
                 try
                 {
-                    //if(desiredPropertiesData.SendData)
-                    //{
+                    if(desiredPropertiesData.SendData)
+                    {
                         counter++;
                         if(counter == 1)
                         {
@@ -133,13 +137,13 @@ namespace AzureIotEdgeSimulatedCubie
                                 msg = CubieDataFactory.CreateBatteryData("Cubie1", "1", generationPolicy);
                                 break;
                             case 1:
-                                msg = CubieDataFactory.CreateLidStatusData("Cubie1", "1", false);
+                                msg = CubieDataFactory.CreateLidStatusData("Cubie1", "1", desiredPropertiesData.LidStatus);
                                 break;
                             case 2:
-                                msg = CubieDataFactory.CreateLocationData("Cubie1", "1", "Lab1");
+                                msg = CubieDataFactory.CreateLocationData("Cubie1", "1", desiredPropertiesData.Location);
                                 break;
                             case 3:
-                                msg = CubieDataFactory.CreateGreenLedStatusData("Cubie1", "1", true);
+                                msg = CubieDataFactory.CreateGreenLedStatusData("Cubie1", "1", desiredPropertiesData.GreenLedStatus);
                                 break;
                             default:
                                 break;
@@ -155,8 +159,8 @@ namespace AzureIotEdgeSimulatedCubie
                         await deviceClient.SendEventAsync("temperatureOutput", message);
                         Console.WriteLine($"\t{DateTime.UtcNow.ToShortDateString()} {DateTime.UtcNow.ToLongTimeString()}> Sending message: {counter}, Body: {messageString}");
 
-                    //}
-                    await Task.Delay(TimeSpan.FromSeconds(3/*desiredPropertiesData.SendInterval*/));
+                    }
+                    await Task.Delay(TimeSpan.FromSeconds(desiredPropertiesData.SendInterval));
                 }
                 catch(Exception ex)
                 {
@@ -169,8 +173,7 @@ namespace AzureIotEdgeSimulatedCubie
 
         private static Task OnDesiredPropertiesUpdate(TwinCollection twinCollection, object userContext)
         {
-            var desiredPropertiesData = new DesiredPropertiesData(twinCollection);
-            Console.WriteLine(desiredPropertiesData);
+            desiredPropertiesData = new DesiredPropertiesData(twinCollection);
             return Task.CompletedTask;
         }
 
